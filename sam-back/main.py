@@ -1,6 +1,8 @@
 #/usr/bin/python3
 
 import socket
+import traceback
+from db_utils import *
 
 class SocketHandler():
     def __init__(self):
@@ -15,9 +17,21 @@ class SocketHandler():
 
         self.connected_sock, self.clnt_addr = self.sock.accept()
 
-        while True:
-            data = self.connected_sock.recv(1024).decode()
-            print(data)
+        try:
+            while True:
+                data = self.connected_sock.recv(4096).decode()
+
+                if(data[0:3].lower() == 'add'):
+                    user_id, name = data.split()[1], data.split()[2]
+                    print("adding ", user_id, name)
+                    add_user(int(user_id), name)
+
+
+                print(data)
+        except Exception as e:
+            self.sock.close()
+            traceback.print_exc()
+
 
 
 def main():
