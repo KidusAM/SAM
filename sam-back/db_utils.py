@@ -18,4 +18,14 @@ def conn_db(func):
 def add_user(cursor, uid, name):
     cursor.execute('INSERT INTO users(uid, name) VALUES(?, ?)', (uid, name))
 
+"""
+Format of schedule_text is "1,12,17,21" to mean the 
+"""
+class Schedule():
+    def __init__(schedule_text):
+        
+@conn_db
+def add_schedule(cursor, uid, schedule):
+    
+
 

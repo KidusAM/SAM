@@ -21,10 +21,16 @@ class SocketHandler():
             while True:
                 data = self.connected_sock.recv(4096).decode()
 
-                if(data[0:3].lower() == 'add'):
+                method = data.split()[0].lower()
+
+                if(method == 'add'):
                     user_id, name = data.split()[1], data.split()[2]
                     print("adding ", user_id, name)
                     add_user(int(user_id), name)
+                if(method == 'schedule'):
+                    
+
+                    
 
 
                 print(data)
