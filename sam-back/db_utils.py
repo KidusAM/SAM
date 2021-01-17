@@ -16,8 +16,13 @@ def conn_db(func):
 
 @conn_db
 def add_user(cursor, uid, group_id, name):
-    cursor.execute('INSERT INTO users(uid, group_id, name) VALUES(?, ?, ?)',
+    try:
+        cursor.execute('INSERT INTO users(uid, group_id, name) VALUES(?, ?, ?)',
                    (uid, group_id, name))
+    except:
+        cursor.execute('UPDATE users SET group_id = ? WHERE uid = ?',
+                       (group_id, uid))
+
 
 """
 Format of schedule_text is "1,12,17,21" to mean the user is available at
@@ -40,23 +45,29 @@ def add_schedule(socket, uid, schedule):
     print("add_schedule", "group_id: ", group_id, "name: ", name)
 
     for hour in schedule.available_times:
+        try:
+            cursor.execute("DELETE FROM schedule WHERE uid = ? AND time = ? AND\
+                           group_id = ?", (uid, hour, group_id))
+        except:
+            pass
+
         cursor.execute("INSERT INTO schedule(uid, date, time, group_id) \
                            VALUES(?, ?, ?, ?)", (uid, "today", hour, group_id))
-        if group_id:
-            print("[group_id]", group_id, "[hour]", hour)
-            others = cursor.execute("""SELECT schedule.uid, users.name FROM
-                                    (schedule JOIN users ON schedule.uid =
-                                    users.uid) WHERE schedule.group_id = ?
-                                    AND time = ?""", (group_id, hour)).fetchall()
-            if(len(others) > 1):
-                request = str(hour)
-                request += " "
-                for uid, name in others:
-                    request += str(uid) + ";" + name
-                    request += ","
-                print(request)
-                socket.sendall(request[0:-1].encode())
-                print(others)
+
+        print("[group_id]", group_id, "[hour]", hour)
+        others = cursor.execute("""SELECT schedule.uid, users.name FROM
+                                (schedule JOIN users ON schedule.uid =
+                                users.uid) WHERE schedule.group_id = ?
+                                AND time = ?""", (group_id, hour)).fetchall()
+        if(len(others) > 1):
+            request = str(hour)
+            request += " "
+            for uid, name in others:
+                request += str(uid) + ";" + name
+                request += ","
+            print(request)
+            socket.sendall(request[0:-1].encode())
+            print(others)
 
     conn.commit()
     conn.close()
