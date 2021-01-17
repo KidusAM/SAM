@@ -10,7 +10,7 @@ File_organization:
     - DB:
       - data.db 
  
- App.py harnesses the python telegram-bot to communciate through telegram's API directly with users who add SaM to their groups. This front end server will recieve times to schedule meetings and send these times to the backend server which is main.py. Main.py processes this information from the front-end implementing into a database and running databses queries in SQL lite. Once a match has been found between users, main.py sends a request to app.py to forward users who have matched a message outlining the time of the scheduled meeting and the perso/persons they will be meeting with. 
+ App.py harnesses the python telegram-bot to communciate through telegram's API directly with users who add SaM to their groups. This front end server will recieve times to schedule meetings and send these times to the backend server which is main.py. Main.py processes this information from the front-end implementing into a database and running databses queries in SQL lite. Once a match has been found between users, main.py sends a request to app.py to forward users who have matched a message outlining the time of the scheduled meeting and the person/persons they will be meeting with. 
  
  
  
