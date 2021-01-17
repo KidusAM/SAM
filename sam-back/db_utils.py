@@ -48,7 +48,7 @@ def add_schedule(socket, uid, schedule):
                                     (schedule JOIN users ON schedule.uid =
                                     users.uid) WHERE schedule.group_id = ?
                                     AND time = ?""", (group_id, hour)).fetchall()
-            if(len(others)):
+            if(len(others) > 1):
                 request = str(hour)
                 request += " "
                 for uid, name in others:
