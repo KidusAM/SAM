@@ -49,6 +49,8 @@ def add_schedule(socket, uid, schedule):
             if(len(others)):
                 request = str(hour)
                 request += " "
+                request += str(uid)
+                request += str(name)
                 for uid, name in others:
                     request += str(uid) + ";" + name
                     request += ","
