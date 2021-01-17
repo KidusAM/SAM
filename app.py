@@ -10,7 +10,7 @@ TOKEN = '1543058829:AAEJyUJeyGD5Z1u7xjvtmN12TMFyZrZ0lsE'
 
 def connectServer():
     HOST = '127.0.0.1'
-    PORT = 4062
+    PORT = 4065
     
     global sock 
     sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
