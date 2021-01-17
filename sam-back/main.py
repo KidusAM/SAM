@@ -24,14 +24,15 @@ class SocketHandler():
                 method = data.split()[0].lower()
 
                 if(method == 'add'):
-                    user_id, name = int(data.split()[1]), data.split()[2]
-                    print("adding ", user_id, name)
-                    add_user(user_id, name)
+                    user_id, group_id, name = int(data.split()[1]), \
+                        int(data.split()[2]), data.split()[3]
+                    print("adding uid: ", user_id, "group_id: ", group_id,\
+                          "name: ", name)
+                    add_user(user_id, group_id, name)
                 if(method == 'schedule'):
                     user_id = int(data.split()[1])
-                    group_id = int(data.split()[2])
-                    schedule_text = data.split()[3]
-                    add_schedule(user_id, group_id, Schedule(schedule_text))
+                    schedule_text = data.split()[2]
+                    add_schedule(self.sock, user_id, Schedule(schedule_text))
 
         except Exception as e:
             self.sock.close()
