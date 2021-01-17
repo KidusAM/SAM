@@ -32,7 +32,7 @@ class SocketHandler():
                 if(method == 'schedule'):
                     user_id = int(data.split()[1])
                     schedule_text = data.split()[2]
-                    add_schedule(self.sock, user_id, Schedule(schedule_text))
+                    add_schedule(self.connected_sock, user_id, Schedule(schedule_text))
 
         except Exception as e:
             self.sock.close()
