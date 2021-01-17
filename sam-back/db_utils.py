@@ -40,6 +40,8 @@ def add_schedule(socket, uid, schedule):
     print("add_schedule", "group_id: ", group_id, "name: ", name)
 
     for hour in schedule.available_times:
+        cursor.execute("INSERT INTO schedule(uid, date, time, group_id) \
+                           VALUES(?, ?, ?, ?)", (uid, "today", hour, group_id))
         if group_id:
             print("[group_id]", group_id, "[hour]", hour)
             others = cursor.execute("""SELECT schedule.uid, users.name FROM
@@ -49,16 +51,12 @@ def add_schedule(socket, uid, schedule):
             if(len(others)):
                 request = str(hour)
                 request += " "
-                request += str(uid)
-                request += str(name)
                 for uid, name in others:
                     request += str(uid) + ";" + name
                     request += ","
                 print(request)
                 socket.sendall(request[0:-1].encode())
                 print(others)
-            cursor.execute("INSERT INTO schedule(uid, date, time, group_id) \
-                           VALUES(?, ?, ?, ?)", (uid, "today", hour, group_id))
 
     conn.commit()
     conn.close()
