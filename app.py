@@ -3,8 +3,13 @@ import logging
 import socket
 import traceback
 
-TOKEN = '1543058829:AAEJyUJeyGD5Z1u7xjvtmN12TMFyZrZ0lsE'
+from telegram import Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import 
+(Updater,CommandHandler,MessageHandler,Filters,ConversationHandler,
+        CallbackContext,CallbackQueryHandler)
 
+from credentials import TOKEN
 
 
 
@@ -15,22 +20,11 @@ def connectServer():
     global sock 
     sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     sock.connect((HOST,PORT))
-        
-
-
 
 def send (msg:str):
     global sock
     sock.sendall(msg.encode())
     
-    
-    
-    
-
-from telegram import Update
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import (Updater,CommandHandler,MessageHandler,Filters,ConversationHandler,CallbackContext,CallbackQueryHandler)
-
 bot = telegram.Bot(token=TOKEN)
 
 logging.basicConfig(
@@ -102,14 +96,6 @@ def button(update: Update, context:CallbackContext):
     bot.sendMessage(chat_id, f"Selected option: {query.data}")
     send(" ".join(("SCHEDULE",str(uid),query.data)))
     
-
-
-
-      
-
-    
-
-    
 def parseLst(names):
     string =  ""
     for i in range(len(names)):
@@ -120,11 +106,6 @@ def parseLst(names):
     
     return string                
                         
-                
-                
-                
-                
-
 def main():
      
      updater = Updater(TOKEN, use_context=True)
@@ -196,19 +177,3 @@ def main():
         
 if __name__ == "__main__":
     main()
-    
-        
-        
-         
-
-
-
-
-
-
-
-
-
-
-
-
